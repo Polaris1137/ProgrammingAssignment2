@@ -1,31 +1,30 @@
-## wgwegwegweg
-makeCacheMatrix <- function(x = matrix()) {
-   inv <- NULL
+## Let x equals as matrix
+## After which, represent "w" as null
+## Replace mean with solve
+makeCacheMatrix <- function(x = matrix(sample(1:800,4),9,9)) {
+   w <- NULL
    set <- function(y) {
         x <<- y
-        inv <<- NULL
+        w <<- NULL
         }
-   get <- function() {x}
-   setinverse <- function(increase) {inv <<- inverse}
-   getinverse <- function() {inv}
-   list(set = set,
-        get = get,
-        setinverse = setinverse,
-        getinverse = getinverse)
-}
-           
-## 
+   get <- function() x
+   setsolve <- function(solve) w <<- solve 
+   getsolve <- function() w
+   list(set = set, get = get,
+        setsolve = setsolve,
+        getsolve = getsolve)
+}    
 
-}
+## Likewise, replace "mean" to "solve" then "m" to "w'
 
 cacheSolve <- function(x, ...) {
-   inv <- x$getinverse()
-   if(!is.null(inv)) {
-           message("retrieving cached data")
-           return(inv)
+   w <- x$getsolve()
+   if(!is.null(w)) {
+           message("getting inversed matrix")
+           return(w)
            }
-   mat <- x$setinverse(inv)
-   inv <- solve(mat, ...)
-   x$setinverse(inv)
-   inv
+   data <- x$get()
+   w <- solve(data, ...)
+   x$setsolve(w)
+   w
 }
